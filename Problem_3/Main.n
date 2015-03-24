@@ -1,0 +1,17 @@
+﻿#pragma indent
+
+using System
+using System.Console
+//using Nemerle.Utility
+
+module Program
+  Main() : void
+    def SQ(x)
+      x*x
+    WriteLine($[1..100].FoldLeft(0,_+_)**2)
+    WriteLine(SQ($[1..100].FoldLeft(0,_+_)))
+    WriteLine($[1..100].Map(x=>x*x).FoldLeft(0,_+_))
+    WriteLine($[1..100].Map(SQ).FoldLeft(0,_+_))
+    WriteLine($[1..100].FoldLeft(0,_+_)**2 - $[1..100].Map(x=>x*x).FoldLeft(0,_+_))
+    WriteLine(SQ($[1..100].FoldLeft(0,_+_)) - $[1..100].Map(SQ).FoldLeft(0,_+_))
+    _ = ReadLine()

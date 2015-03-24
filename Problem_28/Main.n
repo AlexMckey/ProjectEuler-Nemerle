@@ -1,0 +1,55 @@
+﻿using System;
+using System.Console;
+using SC = System.Collections;
+using System.Collections.Generic;
+using Nemerle.Utility;
+
+class Numbers: IEnumerable[int]
+{
+  private Max: int;
+  mutable Last: int;
+  mutable Add: int;
+  public this(max: int)
+  {
+    Max = max;
+    Last = 1;
+    Add = 2;
+  }
+  public Reset(): void
+  {
+    Last = 1;
+    Add = 2;
+  }
+  public SimpleGetEnumerator() : SC.IEnumerator implements SC.IEnumerable.GetEnumerator
+  {
+    this.GetEnumerator()
+  }  
+  public /*Generic*/GetEnumerator(): IEnumerator[int]/* implements IEnumerable[int].GetEnumerator*/
+  {
+    yield 1;
+    repeat(Max/2)
+    {
+      repeat(4)
+      {
+        Last += Add;
+        yield Last;
+      }
+      Add += 2;
+    }
+  }
+}
+module Program
+{
+  Main() : void
+  {
+    def n = Numbers(5);
+    WriteLine($"..$n");
+    n.Reset();
+    def l = n.Fold(0,_+_);
+    WriteLine(l);
+    def n = Numbers(1001);
+    def l = n.Fold(0,_+_);
+    WriteLine(l);
+    _ = ReadKey();
+  }
+}

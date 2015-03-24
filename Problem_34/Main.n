@@ -1,0 +1,36 @@
+﻿using System;
+using System.Console;
+using Nemerle.Utility;
+
+module Program
+{
+  Main() : void
+  {
+    def f(n,acc=1)
+    {
+      | (0,_) 
+      | (1,_) => acc
+      | _     => f(n-1,acc*n)
+    }
+    def ft = $[0..9].Map(f(_,1)).ToArray();
+    WriteLine($"..$ft");
+    def l = $[x1*10+x2 | x1 in $[1..9], x2 in $[0..9],(x1*10+x2)==(ft[x1]+ft[x2])];
+    WriteLine(l);
+    _ = ReadKey();
+    def l = $[x1*100+x2*10+x3 | x1 in $[1..9], x2 in $[0..9], x3 in $[0..9],(x1*100+x2*10+x3)==(ft[x1]+ft[x2]+ft[x3])];
+    WriteLine(l);
+    _ = ReadKey();
+    def l = $[x1*1000+x2*100+x3*10+x4 | x1 in $[1..9], x2 in $[0..9], x3 in $[0..9], x4 in $[0..9],(x1*1000+x2*100+x3*10+x4)==(ft[x1]+ft[x2]+ft[x3]+ft[x4])];
+    WriteLine(l);
+    _ = ReadKey();
+    def l = $[x2*10000+x3*1000+x4*100+x5*10+x6 | x2 in $[1..9], x3 in $[0..9], x4 in $[0..9], x5 in $[0..9], x6 in $[0..9],(x2*10000+x3*1000+x4*100+x5*10+x6)==(ft[x2]+ft[x3]+ft[x4]+ft[x5]+ft[x6])];
+    WriteLine(l);
+    _ = ReadKey();
+    def l = $[x1*100000+x2*10000+x3*1000+x4*100+x5*10+x6 | x1 in $[1..9], x2 in $[0..9], x3 in $[0..9], x4 in $[0..9], x5 in $[0..9], x6 in $[0..9],(x1*100000+x2*10000+x3*1000+x4*100+x5*10+x6)==(ft[x1]+ft[x2]+ft[x3]+ft[x4]+ft[x5]+ft[x6])];
+    WriteLine(l);
+    _ = ReadKey();
+    def l = $[x0*1000000+x1*100000+x2*10000+x3*1000+x4*100+x5*10+x6 | x0 in $[1..9], x1 in $[0..9], x2 in $[0..9], x3 in $[0..9], x4 in $[0..9], x5 in $[0..9], x6 in $[0..9],(x0*1000000+x1*100000+x2*10000+x3*1000+x4*100+x5*10+x6)==(ft[x0]+ft[x1]+ft[x2]+ft[x3]+ft[x4]+ft[x5]+ft[x6])];
+    WriteLine(l);
+    _ = ReadKey();
+  }
+}

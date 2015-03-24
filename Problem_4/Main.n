@@ -1,0 +1,22 @@
+﻿#pragma indent
+
+using System
+using System.Console
+//using Nemerle.Utility
+using System.Math
+
+module Program
+  Main() : void
+    def gcd(x:long,y:long):long
+      if (y==0) x
+      else gcd(y,x%y)
+    def lcq(x:long,y:long):long
+      x*y/gcd(x,y)
+
+    def l = [1l,2l,3l,4l,5l,6l,7l,8l,9l,10l,11l,12l,13l,14l,15l,16l,17l,18l,19l,20l]
+    //WriteLine(gcd(21l,14l))
+    //WriteLine(lcq(4l,6l))
+    //WriteLine($[1..20].FoldLeft(2,gcd))
+    //WriteLine($[1..20].FoldLeft(1,lcq))
+    WriteLine(l.FoldLeft(1l,lcq))
+    _ = ReadLine()

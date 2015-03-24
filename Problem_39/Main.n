@@ -1,0 +1,42 @@
+﻿using System;
+using System.Console;
+using Nemerle.Utility;
+
+module Program
+{
+  Main() : void
+  {
+    def f(x)
+    {
+      $[(a,b,(x-a-b)) | a in $[1..x/3-1], b in $[a..2*x/3-a-1], a+b+(x-a-b)==x, a*a+b*b==(x-a-b)*(x-a-b)].Length;
+    }
+    def ff(x)
+    {
+      mutable sum = 0;
+      for(mutable i = 1; i<=x/3-1; i++)
+      {
+        for(mutable j = i; j<=2*x/3-i-1; j++)
+        {
+           def k = x - i - j;
+           when (j*j+i*i==k*k) sum++
+        }
+      }
+      sum;
+    }
+    WriteLine(f(120));
+    WriteLine(ff(120));
+    _ = ReadKey();
+    def FindMax(b)
+    {
+      $[3..b].Map(x=>(x,ff(x))).FoldLeft((2,0),(x,a)=>if (x[1] > a[1]) x else a)
+    }
+    WriteLine(FindMax(1000));
+    _ = ReadKey();
+    def FindMaxOld(b)
+    {
+      $[3..b].Map(x=>(x,f(x))).FoldLeft((2,0),(x,a)=>if (x[1] > a[1]) x else a)
+    }
+    WriteLine(FindMaxOld(1000));
+    _ = ReadKey();
+  }
+}

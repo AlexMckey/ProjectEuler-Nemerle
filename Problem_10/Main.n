@@ -1,0 +1,83 @@
+﻿#pragma indent
+
+using System
+using System.Console
+using Nemerle.Collections
+using SCG = System.Collections.Generic
+//using Nemerle.Utility
+
+module Program
+  class PrimeNumbers
+    mutable static primes: Map[int,long] = Map()
+    mutable current = 0
+    
+    public static this()
+      primes = primes.Add(1,2).Add(2,3)
+      
+    public this()
+      this(2)
+    public this(num: int)
+      when (num > primes.Count) FillPrimes(num)
+      current = 0
+      
+    private static IsPrime(ps: Map[int,long], num: long): bool
+      def lim = Math.Sqrt(num):>long
+      !ps.Exists((_,p)=>(p<=lim) && (num%p==0))
+    
+    public static IsPrime(num: long): bool
+      IsPrime(primes,num)
+      
+    public static NthPrime(n: int): long
+      FillPrimes(n)
+      primes.Get(n)
+      
+    //private static FillPrimes(num: int): void
+    //  def loop(c,i)
+    //    | _ when i > num    => ()
+    //    | _ when IsPrime(c) => primes = primes.Add(i,c); loop(c+2,i+1)
+    //    | _                 => loop(c+2,i)
+    //  loop(primes.Get(primes.Count)+2,primes.Count+1)
+      
+    private static FillPrimes(num: int): void
+      def loop(m,c,i)
+        | _ when i > num      => m
+        | _ when IsPrime(m,c) => loop(m.Add(i,c),c+2,i+1)
+        | _                   => loop(m,c+2,i)
+      primes = loop(primes,primes.Get(primes.Count)+2,primes.Count+1)
+          
+    public Current: long
+      get
+        if (current == 0) 1l
+        else primes.Get(current)
+    
+    public CurrentNum: int
+      get
+        current
+        
+    public Next():void
+      Next(1)
+      
+    public Prev():void
+      Next(-1)
+      
+    public Prev(num: int):void
+      Next(-num)
+      
+    public Next(num: int):void
+      current += num
+      when (current > primes.Count) FillPrimes(current)
+      
+            
+  Main() : void
+    def FindSumPrimes(n:long)
+      def pr = PrimeNumbers()
+      def nextpr(pr)
+        pr.Next()
+        pr
+      def loop(s,pr)
+        | _ when pr.Current > n => s
+        | _                     => loop(s+pr.Current,nextpr(pr))
+      loop(0l,nextpr(pr))
+    WriteLine(FindSumPrimes(10))
+    WriteLine(FindSumPrimes(1000000))
+    _ = ReadLine()

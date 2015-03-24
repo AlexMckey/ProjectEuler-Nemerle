@@ -1,0 +1,37 @@
+﻿#pragma indent
+
+using System
+using System.Console
+using Next
+  
+class Next
+  public mutable x: int
+  public mutable y: int
+  public mutable z: int
+  public this(t: int, p: int, h: int)
+    (x,y,z) = (t,p,h)
+  public nextt(): long
+    x++
+    x*(x+1l)/2l
+  public nextp(): long
+    y++
+    y*(3l*y-1l)/2l
+  public nexth(): long
+    z++
+    z*(2l*z-1l)
+      
+module Program
+  Main() : void
+    def FindNum(n:Next)
+      def loop(n,t,p,h)
+        | _ when t==p && p==h => (t,n.x,n.y,n.z)
+        | _ when t<h => loop(n,n.nextt(),p,h)
+        | _ when t<p => loop(n,n.nextt(),p,h)
+        | _ when p<h => loop(n,t,n.nextp(),h)
+        | _ when p<t => loop(n,t,n.nextp(),h)
+        | _ when h<t => loop(n,t,p,n.nexth())
+        | _ when h<p => loop(n,t,p,n.nexth())
+      loop(n,n.nextt(),n.nextp(),n.nexth())  
+    def N = Next(285,165,143)
+    WriteLine(FindNum(N))
+    _ = ReadLine()

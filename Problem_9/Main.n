@@ -1,0 +1,12 @@
+﻿#pragma indent
+
+using System
+using System.Console
+using Nemerle.Utility
+
+module Program
+  Main() : void
+    def l = $[(a,b,c) | a in $[1..998], b in $[1..998], c in $[1..998], a*a+b*b==c*c, a+b+c==1000]
+    WriteLine(l.Map((x,y,z)=>x*y*z))
+    WriteLine($[a*b*c | a in $[1..998], b in $[1..998], c in $[1..998], a*a+b*b==c*c, a+b+c==1000])
+    _ = ReadLine()

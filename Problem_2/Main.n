@@ -1,0 +1,18 @@
+﻿#pragma indent
+
+using System
+using System.Console
+using Nemerle.Utility
+
+module Program
+  Main() : void
+    def fibonacci(up)
+      mutable (p,l) = (1,1)
+      mutable fn = []
+      while (l<=up)
+        (p,l) = (l,p+l)
+        when (l%2==0) fn = l::fn
+      fn
+    WriteLine(fibonacci(1000000))
+    WriteLine(fibonacci(1000000).Fold(0,_+_))
+    _ = ReadLine()

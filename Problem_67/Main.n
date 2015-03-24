@@ -1,0 +1,23 @@
+﻿using System;
+using Nemerle.Utility;
+module Program
+{
+  Main(): void
+  {
+    def input = IO.StreamReader("triangle.txt").ReadToEnd();
+    //def ToInt = Int32.Parse:string->int; 
+    // Transform into 2-dim array
+    def dataArr = input.Split(array[Environment.NewLine],StringSplitOptions.RemoveEmptyEntries).Map(x=>x.Split(' ').Map(Int32.Parse));
+    //def sArr = input
+    //  .Split(array[ Environment.NewLine ], StringSplitOptions.RemoveEmptyEntries)
+    //  .Map(_.Split(array[' ']).Map(int.Parse));
+     
+    // Calculation cycles
+    for (mutable i = dataArr.Length - 1; i > 0; i--)
+      for (mutable j = 0; j < dataArr[i].Length - 1; j++)
+        dataArr[i - 1][j] += Math.Max(dataArr[i][j], dataArr[i][j + 1]);
+     
+    Console.WriteLine(dataArr[0][0]);
+    _ = Console.ReadKey();
+  }
+}

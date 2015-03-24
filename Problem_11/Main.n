@@ -1,0 +1,63 @@
+﻿#pragma indent
+
+using System
+using System.Console
+using Program.TriangleNumbers
+  
+module Program
+  module TriangleNumbers
+    mutable current: int = 0
+    mutable next: int = 0
+    public Reset(): void
+      current = 0
+      next = 0
+    public Next: int
+      get
+        current++
+        next = next+current
+        next
+    public Prev: int
+      get
+        current--
+        next = next-current
+        next    
+    
+  Main() : void
+    def CalcTriNum(n)
+      n*(n+1)/2
+    def FindCountDivs(n:int)
+      def loop(c,t)
+        | _ when t > Math.Sqrt(n):>int  => c+1
+        | _ when n%t==0 => loop(c+2,t+1)
+        | _             => loop(c,t+1)
+      if (n < 1) 1 else loop(1,2)
+      //WriteLine($"$n => $x($d)")
+      //x
+    def FindOverNDivs(n)
+      def PowersOf2(n,c=0)
+        | _ when n%2==0 => PowersOf2(n/2,c+1)
+        | _             => c+1
+      def loop(t,p,dn1,dn2)
+        | _ when dn1*dn2*p/(p+1) > n => (t,CalcTriNum(t-1),dn1*dn2*p/(p+1))
+        | _ => loop(t+1,PowersOf2(CalcTriNum(t+1)),dn2,FindCountDivs(t+1))
+      loop(1,1,1,1) 
+    //WriteLine(Next)
+    //WriteLine($[1..6].FoldLeft([1],(_,acc)=>Next::acc))
+    //Reset()
+    //WriteLine($[1..10].Map(x=>(x,FindCountDivs(x))))
+    //WriteLine($[1..28].Map(x=>(x,FindCountDivs(x))))
+    //Reset()
+    //WriteLine($[Next | _ in $[1..100]].Map(x=>(x,FindCountDivs(x))))
+    //Reset()
+    WriteLine(FindCountDivs(28))
+    WriteLine(FindCountDivs(6850551))
+    WriteLine(FindCountDivs(6924781))
+    Reset()
+    WriteLine(FindOverNDivs(5))
+    _ = ReadKey()
+    Reset()
+    WriteLine(FindOverNDivs(20))
+    _ = ReadKey()
+    Reset()
+    WriteLine(FindOverNDivs(500))
+    _ = ReadLine()

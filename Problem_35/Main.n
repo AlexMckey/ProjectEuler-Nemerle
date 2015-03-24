@@ -1,0 +1,57 @@
+﻿using System;
+using System.Collections.Generic; 
+using System.Math; 
+using System.Text;
+using Nemerle.Collections; 
+using System.Console;
+
+module Program
+{// Code for primes calculation - we need it to determine prime factors 
+  Main(): void
+  {
+    mutable primes = [];//List();
+    def IsPrime(n)
+    {
+      primes.Contains(n)
+    }
+    def GetCircularNumber(n:int)
+    {
+      def ToInt = Int32.Parse: string->int;
+      mutable s = StringBuilder(n.ToString());
+      mutable circ = [s.ToString()];
+      def l = s.Length;
+      repeat(l-1)
+      {
+        def c = s[0];
+        s = s.Remove(0,1);
+        s = s.Append(c);
+        circ = s.ToString()::circ;
+      }
+      circ.Map(ToInt)
+    }
+    def calculatePrimes(n, limit) 
+    { 
+      | (0, _)           => calculatePrimes(/*primes[primes.Count - 1]*/primes.Head + 2, limit) 
+      | _ when n > limit => {} 
+      | _                => when (primes.ForAll(x => n % x != 0)) primes = n::primes; calculatePrimes(n + 2, limit) 
+    } 
+    def CountCircularPrimes(l,c=0) 
+    { 
+      | ([],_) => c
+      | (h::t,_) when GetCircularNumber(h).ForAll(IsPrime) => CountCircularPrimes(t,c+1)
+      | (_::t,_) => CountCircularPrimes(t,c)
+    } 
+    primes = 3::2::primes;
+    calculatePrimes(0, 100);
+    WriteLine(CountCircularPrimes(primes));
+    _ = ReadKey();
+    calculatePrimes(0, 1000);
+    WriteLine(CountCircularPrimes(primes));
+    WriteLine(GetCircularNumber(197));
+    WriteLine(GetCircularNumber(197).ForAll(IsPrime));
+    _ = ReadKey();
+    calculatePrimes(0, 1000000); 
+    WriteLine(CountCircularPrimes(primes));
+    _ = ReadKey();
+  }
+}

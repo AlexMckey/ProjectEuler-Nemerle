@@ -1,0 +1,16 @@
+﻿using System;
+using System.Console;
+using Nemerle.Utility;
+using Nemerle.Collections;
+
+module Program
+{
+  Main() : void
+  {
+    def a = $[x**y | x in $[2..100], y in $[2..100]].ToArray();
+    Array.Sort(a);
+    def r = a.Fold((0,0.0),(d,acc)=>{def (s,e) = acc; if (d-e<0.00001) (s,d) else (s+1,d)});
+    WriteLine(r);
+    _ = ReadKey()
+  }
+}

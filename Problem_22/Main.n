@@ -1,0 +1,12 @@
+﻿using System;
+using System.Console;
+using Nemerle.Utility;
+
+def Sum = IO.StreamReader("names.txt")
+            .ReadToEnd()
+            .Replace("\"",String.Empty)
+            .Split(',')
+            .SortInplace(_.CompareTo(_))
+            .FoldI(0l,(i,str,sum:long)=>sum+str.Fold(0,(c:char,s)=>c-'A':>int+1+s)*(i+1));
+WriteLine(Sum);
+_ = ReadKey();

@@ -1,0 +1,61 @@
+﻿#pragma indent
+
+using System
+using System.Console
+using Nemerle.Utility
+using System.IO
+
+module Program
+  class NextStrReader
+    private stream: StreamReader
+    private mutable cur: string
+    private mutable prev: string
+    public this(fn: string)
+      stream = StreamReader(fn)
+      cur = stream.ReadLine()
+    public NextStr(): string*string
+      prev = cur
+      cur = stream.ReadLine()
+      (prev,cur)
+  Main() : void
+    def Give(str: string, i: int, x: int): array[int]
+      def arr = str.Split(array[' '])
+      def sarr: array[string] = array(x)
+      //def iarr = array.[int](2)
+      Array.Copy(arr,i,sarr,0,x)
+      def ToInt(s:string):int
+        Int32.Parse(s)
+      sarr.Map(ToInt)
+    def GiveSumm(arr1: array[int], arr2: array[int]):array[int*int*int]
+      array[(arr1[0],arr1[0]+arr2[0],0),(arr1[0],arr1[0]+arr2[1],0),(arr1[1],arr1[1]+arr2[1],1),(arr1[1],arr1[1]+arr2[2],1)]
+    def Max(a: int*int*int, b: int*int*int): int*int*int
+      if (a[1] >= b[1]) a else b
+    def FindMax(arr: array[int*int*int]): int*int*int
+      Max(Max(arr[0],arr[1]),Max(arr[2],arr[3]))
+    def FindPath(r: NextStrReader): list[int]
+      def loop(sum: list[int], idx: int,(str1: string, str2: string))
+        | (_,_,(_,null)) => def arr = Give(str1,idx,2); Math.Max(arr[0],arr[1])::sum
+        | _ => def (x,_,i) = FindMax(GiveSumm(Give(str1,idx,2),Give(str2,idx,3))); loop(x::sum,idx+i,r.NextStr())
+      def (s,_) = r.NextStr()
+      loop([Int32.Parse(s)],0,r.NextStr())
+    def Sum(l: list[int]): int
+      def loop(l,s)
+        | ([],_)   => s
+        | (h::t,_) => loop(t,s+h)
+      loop(l,0)
+    def rdr = NextStrReader("tri.txt")
+    //WriteLine(rdr.NextStr)
+    //def (str1,str2) = rdr.NextStr
+    //WriteLine((str1,str2))
+    //def (arr1,arr2) = (Give(str1,0,2),Give(str2,0,3))
+    //def arr = GiveSumm(arr1,arr2)
+    //WriteLine($"$(arr.ToList())")
+    //WriteLine($"$(FindMax(arr))")
+    def SUM = FindPath(rdr)
+    WriteLine(SUM)
+    WriteLine(Sum(SUM))
+    def rdr = NextStrReader("triangle.txt")
+    def SUM = FindPath(rdr)
+    WriteLine(SUM)
+    WriteLine(Sum(SUM))
+    _ = ReadLine()

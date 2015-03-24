@@ -1,0 +1,65 @@
+﻿using System;
+using System.Console;
+using Nemerle.Utility;
+
+module Program
+{
+  Main() : void
+  {
+    //def Norm(s)
+    //{
+    //  mutable i = 0;
+    //  while(s[s.Length-1-i]=='0') i++;
+    //  s.PadLeft(i+s.Length,'0');
+    //}
+    def ToBinStr(x)
+    {
+      def loop(n,l)
+      {
+        | _ when n == 1 || n == 0 => n::l
+        | _ => loop(n/2,n%2::l)
+      }
+      NString.Concat(String.Empty,loop(x,[]).Rev().Map(_.ToString()));
+    }
+    def CheckPalindrom(ns)
+    {
+      def SkipLeft0(s)
+      {
+        mutable i = s.Length-1;
+        while(s[i]=='0') i--;
+        i;
+      }
+      def loop(s,f,l)
+      {
+        | _ when f>l        => true;
+        | _ when s[f]==s[l] => loop(s,f+1,l-1);
+        | _                 => false;
+      }
+      loop(ns,0,SkipLeft0(ns)) 
+    }
+    def FindSumPalindromicNumber(n)
+    {
+      def loop(x,s)
+      {
+        | _ when x > n => s
+        | _ when CheckPalindrom(x.ToString()) && CheckPalindrom(ToBinStr(x)) => loop(x+1,s+x)
+        | _ => loop(x+1,s)
+      }
+      loop(1,0);
+    }
+    //WriteLine(Norm("1101000"));
+    //WriteLine(Norm("11000"));
+    //WriteLine(Norm("1101"));
+    WriteLine(CheckPalindrom("1101"));
+    WriteLine(CheckPalindrom("101101"));
+    WriteLine(CheckPalindrom("10110100"));
+    WriteLine(CheckPalindrom(99.ToString()));
+    WriteLine(CheckPalindrom(ToBinStr(99)));
+    WriteLine(CheckPalindrom(100.ToString()));
+    WriteLine(CheckPalindrom(ToBinStr(100)));
+    //WriteLine(CheckPalindrom(Norm("10110100")));
+    _ = ReadKey();
+    WriteLine(FindSumPalindromicNumber(1000000));
+    _ = ReadKey();
+  }
+}

@@ -1,0 +1,100 @@
+﻿#pragma indent
+
+using System
+using System.Console
+using Nemerle.Collections
+using SCG = System.Collections.Generic
+//using Nemerle.Utility
+
+module Program
+  class PrimeNumbers
+    mutable static primes: Map[int,long] = Map()
+    mutable current = 0
+    
+    public static this()
+      primes = primes.Add(1,2).Add(2,3)
+      
+    public this()
+      this(2)
+    public this(num: int)
+      when (num > primes.Count) FillPrimes(num)
+      current = 0
+      
+    private static IsPrime(ps: Map[int,long], num: long): bool
+      def lim = Math.Sqrt(num):>long
+      !ps.Exists((_,p)=>(p<=lim) && (num%p==0))
+    
+    public static IsPrime(num: long): bool
+      IsPrime(primes,num)
+      
+    public static NthPrime(n: int): long
+      FillPrimes(n)
+      primes.Get(n)
+      
+    //private static FillPrimes(num: int): void
+    //  def loop(c,i)
+    //    | _ when i > num    => ()
+    //    | _ when IsPrime(c) => primes = primes.Add(i,c); loop(c+2,i+1)
+    //    | _                 => loop(c+2,i)
+    //  loop(primes.Get(primes.Count)+2,primes.Count+1)
+      
+    private static FillPrimes(num: int): void
+      def loop(m,c,i)
+        | _ when i > num      => m
+        | _ when IsPrime(m,c) => loop(m.Add(i,c),c+2,i+1)
+        | _                   => loop(m,c+2,i)
+      primes = loop(primes,primes.Get(primes.Count)+2,primes.Count+1)
+          
+    public Current: long
+      get
+        if (current == 0) 1l
+        else primes.Get(current)
+    
+    public CurrentNum: int
+      get
+        current
+        
+    public Next():void
+      Next(1)
+      
+    public Prev():void
+      Next(-1)
+      
+    public Next(num: int):void
+      current += num
+      when (current > primes.Count) FillPrimes(current)
+      
+            
+  Main() : void
+    def prnum = PrimeNumbers()
+    WriteLine(prnum.Current)
+    prnum.Next()
+    WriteLine(prnum.Current)
+    prnum.Next()
+    WriteLine(prnum.Current)
+    def prnum = PrimeNumbers()
+    prnum.Next(6)
+    WriteLine(prnum.Current)
+    def prnum = PrimeNumbers()
+    prnum.Next(100)
+    WriteLine(prnum.Current)
+    def prnum = PrimeNumbers()
+    prnum.Next(10001)
+    WriteLine(prnum.Current)
+    WriteLine(PrimeNumbers.NthPrime(10001))
+    WriteLine(PrimeNumbers.NthPrime(100))
+    def FindPrimeDiv(n:long)
+      def pr = PrimeNumbers()
+      def nextpr(pr)
+        pr.Next()
+        pr
+      def loop(l,o:long,pr)
+        //| _ when pr.CurrentNum == 0 => [1,n]
+        | _ when o == 1             => l.Rev()
+        | _ when pr.Current > o     => (o::l).Rev()
+        | _ when o%pr.Current==0    => loop(pr.Current::l,o/pr.Current,nextpr(pr))
+        | _                         => loop(l,o,nextpr(pr))
+      loop([],n,nextpr(pr))
+    WriteLine(FindPrimeDiv(13195))
+    WriteLine(FindPrimeDiv(317584931803))
+    _ = ReadLine()

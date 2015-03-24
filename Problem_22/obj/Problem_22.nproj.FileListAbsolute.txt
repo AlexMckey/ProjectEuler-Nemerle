@@ -1,0 +1,7 @@
+D:\Work\Euler\Problem_22\bin\Debug\Problem_22.exe
+D:\Work\Euler\Problem_22\bin\Debug\Problem_22.pdb
+D:\Work\Euler\Problem_22\bin\Debug\Nemerle.dll
+D:\Work\Euler\Problem_22\bin\Debug\Nemerle.xml
+D:\Work\Euler\Problem_22\obj\Debug\ResolveAssemblyReference.cache
+D:\Work\Euler\Problem_22\obj\Debug\Problem_22.exe
+D:\Work\Euler\Problem_22\obj\Debug\Problem_22.pdb

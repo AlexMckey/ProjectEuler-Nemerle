@@ -1,0 +1,51 @@
+﻿#pragma indent
+
+using System
+using System.Console
+using Nemerle.Utility
+
+module Program
+  public static ToInt(this str: string): int
+    Int32.Parse(str)
+  Main() : void
+    def CheckPalindrom(ns)
+      def loop(s,f,l)
+        | _ when f>l        => true
+        | _ when s[f]==s[l] => loop(s,f+1,l-1)
+        | _                 => false
+      loop(ns,0,ns.Length-1)
+    def MakePalindromOld(n)
+      def ns = n.ToString()
+      mutable res = ns
+      ns.IterI((_,i)=>res=res+ns[ns.Length-1-i].ToString())
+      res
+    def MakePalindrom(n)
+      def ns = n.ToString()
+      mutable res = ns
+      $[ns.Length-1,ns.Length-2..0].Iter(i=>res=res+ns[i].ToString())
+      res
+    def CheckNDigDiv(n,s)
+      def loop(i)
+        | _ when i<(10**(s-1)):>int => false
+        | _ when n%i==0 && n/i<(10**s):>int => true
+        | _ => loop(i-1)
+      loop((10**s):>int-1)
+    def FindMaxPalindrom(x)
+      def loop(i)
+        | _ when i < (10**(x-1)):>int => "nothing"
+        | _ when CheckNDigDiv(MakePalindrom(i).ToInt(),x) => MakePalindrom(i)
+        | _ => loop(i-1)
+      loop((10**x):>int-1)
+    WriteLine(CheckPalindrom(11.ToString()))
+    WriteLine(CheckPalindrom(727.ToString()))
+    WriteLine(CheckPalindrom(9009.ToString()))
+    WriteLine(CheckPalindrom(12.ToString()))
+    WriteLine(CheckPalindrom(724.ToString()))
+    WriteLine(CheckPalindrom(9019.ToString()))
+    WriteLine(Int32.Parse("111"))
+    WriteLine("111".ToInt())
+    WriteLine(MakePalindromOld(234))
+    WriteLine(MakePalindrom(234))
+    WriteLine(FindMaxPalindrom(2))
+    WriteLine(FindMaxPalindrom(3))
+    _ = ReadLine()

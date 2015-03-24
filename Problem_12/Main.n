@@ -1,0 +1,12 @@
+﻿using System;
+using System.Console;
+using Nemerle.Utility;
+
+module Program
+{
+  Main() : void
+  {
+    WriteLine("87 97 94 89");
+    _ = ReadLine();
+  }
+}

@@ -1,0 +1,70 @@
+﻿#pragma indent
+
+using System
+using System.Console
+using Nemerle.Diagnostics
+
+module Program
+  Main() : void
+    def IsPrime(p,n)
+      def checkloop(l)
+        | h::_ when h>Math.Sqrt(n:int):>int     \
+        | []                  => true
+        | h::_ when (n%h)==0  => false
+        | _::t                => checkloop(t)
+      checkloop(p)
+    def IsPrime1(p,n)
+      def checkloop(l)
+        | []                  => true
+        | h::_ when (n%h)==0  => false
+        | _::t                => checkloop(t)
+      checkloop(p)
+    def IsPrime2(p,n)
+      !p.Exists(x=>n%x==0)
+    def FindNthPrime1(n)
+      def findloop(l,c,i)
+        | (h::_,_,i) when i==n => h
+        | _ when IsPrime(l.Rev(),c)  => findloop(c::l,c+2,i+1)
+        | _                    => findloop(l,c+2,i)
+      findloop([3,2],3+2,2)
+    def FindNthPrime2(n)
+      def findloop(l,c,i)
+        | (_,_,i) when i==n => c-2
+        | _ when IsPrime2(l,c)  => findloop(l.RevAppend([c]).Rev(),c+2,i+1)
+        | _                    => findloop(l,c+2,i)
+      findloop([2,3],3+2,2)
+    def FindNthPrime3(n)
+      def findloop(l,c,i)
+        | (_,_,i) when i==n => c-2
+        | _ when IsPrime1(l,c)  => findloop(c::l,c+2,i+1)
+        | _                    => findloop(l,c+2,i)
+      findloop([2,3],3+2,2)
+    def FindNthPrime4(n)
+      def findloop(l,c,i)
+        | (_,_,i) when i==n => c-2
+        | _ when IsPrime2(l.Filter(_<=Math.Sqrt(c:int):>int),c) => findloop(c::l,c+2,i+1)
+        | _                    => findloop(l,c+2,i)
+      findloop([3,2],3+2,2)
+    def FindNthPrime5(n)
+      def findloop(l,c,i)
+        | (_,_,i) when i==n => c-2
+        | _ when IsPrime2(l,c)  => findloop(c::l,c+2,i+1)
+        | _                    => findloop(l,c+2,i)
+      findloop([2,3],3+2,2)
+    def FindPrime(n)
+      def findloop(l,c)
+        | (h::_,c) when c>=n => h
+        | _ when IsPrime1(l,c)  => findloop(c::l,c+2)
+        | _                    => findloop(l,c+2)
+      findloop([2,3],3+2)  
+    WriteLine(FindNthPrime3(5))
+    WriteLine(FindNthPrime3(6))
+    WriteLine(FindNthPrime3(7))
+    WriteLine(FindNthPrime3(10))
+    //time WriteLine(FindNthPrime1(10001))
+    //time WriteLine(FindNthPrime2(10001))
+    time WriteLine(FindNthPrime3(10001))
+    //time WriteLine(FindNthPrime4(10001))
+    //time WriteLine(FindNthPrime5(10001))
+    WriteLine(FindPrime(1000))
+    _ = ReadLine()

@@ -1,0 +1,14 @@
+﻿using System;
+using System.Console;
+using Nemerle.Utility;
+
+module Program
+{
+  Main() : void
+  {
+    def l1 = $[21..40].FoldLeft(1,_*_);
+    def l2 = $[2..20].FoldLeft(1,_*_);
+    WriteLine(l1/l2);
+    _ = ReadKey();
+  }
+}

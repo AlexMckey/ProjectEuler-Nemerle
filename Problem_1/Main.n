@@ -1,0 +1,30 @@
+﻿#pragma indent
+
+using System
+using System.Console
+//using Nemerle.Utility
+
+module Problem_1
+  Main() : void
+    //def FindSum(l,up)
+    //  $[1..Up-1].Filter(l.Exists(x=>_%x==0)).FoldLeft(0,_+_)
+    //WriteLine(FindSum([3,5],10))
+    def CheckDiv(n1,n2)
+      n1%n2==0
+    //def CheckDiv1(n1:int,n2) = _%_==0
+    def CheckDiv1(n)
+      n%3 == 0 || n%5 == 0
+    def Filt(l,n)
+      l.Exists(CheckDiv(n,_))
+    def FindSum(up,l)
+      $[1..up-1].Filter(x=>l.Exists(y=>x%y==0)).FoldLeft(0,_+_)
+    WriteLine($[1..10-1].Filter(x=>x%2==0).FoldLeft(0,_+_))
+    WriteLine($[1..1000-1].Filter(x=> x%3 == 0 || x%5 == 0).FoldLeft(0,_+_))
+    WriteLine($[1..1000-1].Filter(CheckDiv1).FoldLeft(0,_+_))
+    WriteLine(Filt([3,5],10))
+    //WriteLine(CheckDiv1.[int])
+    WriteLine($[1..10-1].Filter(Filt([3,5],_)).FoldLeft(0,_+_))
+    WriteLine($[1..1000-1].Filter(Filt([3,5],_)).FoldLeft(0,_+_))
+    WriteLine($[1..1000-1].Filter(x=>[3,5].Exists(y=>x%y==0)).FoldLeft(0,_+_))
+    WriteLine(FindSum(1000,[3,5]))
+    _ = ReadLine()
